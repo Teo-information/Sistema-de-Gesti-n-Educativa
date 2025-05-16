@@ -9,6 +9,11 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     default-libmysqlclient-dev \
     build-essential \
+    python3-dev \
+    libpq-dev \
+    libjpeg-dev \
+    zlib1g-dev \
+    libpng-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Copiar requirements.txt primero para aprovechar la caché de Docker
