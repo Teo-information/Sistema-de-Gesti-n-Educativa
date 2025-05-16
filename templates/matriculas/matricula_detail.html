@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalles de Matrícula - Sistema de Gestión Educativa{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0">
+                        <i class="fas fa-user-graduate"></i> Detalles de Matrícula
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5>Información del Estudiante</h5>
+                            <p><strong>Nombre:</strong> {{ matricula.estudiante.nombre }} {{ matricula.estudiante.apellido }}</p>
+                            <p><strong>DNI:</strong> {{ matricula.estudiante.dni }}</p>
+                            <p><strong>Email:</strong> {{ matricula.estudiante.email }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Información del Curso</h5>
+                            <p><strong>Curso:</strong> {{ matricula.curso.nombre }}</p>
+                            <p><strong>Código:</strong> {{ matricula.curso.codigo }}</p>
+                            <p><strong>Profesor:</strong> {{ matricula.curso.docente }}</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5>Estado de la Matrícula</h5>
+                            <p><strong>Fecha de Matrícula:</strong> {{ matricula.fecha_matricula|date:"d/m/Y H:i" }}</p>
+                            <p><strong>Estado:</strong> 
+                                <span class="badge {% if matricula.estado == 'ACTIVA' %}bg-success{% elif matricula.estado == 'COMPLETADA' %}bg-info{% else %}bg-danger{% endif %}">
+                                    {{ matricula.get_estado_display }}
+                                </span>
+                            </p>
+                            {% if matricula.get_estado_nota != 'PENDIENTE' %}
+                            <p><strong>Estado Académico:</strong> 
+                                <span class="badge {% if matricula.get_estado_nota == 'APROBADO' %}bg-success{% else %}bg-danger{% endif %}">
+                                    {{ matricula.get_estado_nota }}
+                                </span>
+                            </p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'matriculas:list' %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Volver
+                        </a>
+                        <div>
+                            <a href="{% url 'matriculas:update' matricula.pk %}" class="btn btn-primary">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+                            <a href="{% url 'matriculas:delete' matricula.pk %}" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">
+                        <i class="fas fa-chart-bar"></i> Rendimiento Académico
+                    </h3>
+                </div>
+                <div class="card-body">
+                    {% if nota %}
+                        <div class="text-center mb-3">
+                            <h4>Nota Final</h4>
+                            <h2 class="display-4 {% if nota.valor >= 11 %}text-success{% else %}text-danger{% endif %}">
+                                {{ nota.valor|floatformat:1 }}
+                            </h2>
+                        </div>
+                        <p class="text-muted text-center">
+                            {% if nota.valor >= 11 %}
+                                <i class="fas fa-check-circle text-success"></i> Aprobado
+                            {% else %}
+                                <i class="fas fa-times-circle text-danger"></i> Desaprobado
+                            {% endif %}
+                        </p>
+                    {% else %}
+                        <p class="text-muted text-center">No hay notas registradas</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

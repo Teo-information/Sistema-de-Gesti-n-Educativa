@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Sistema de Gestión Educativa{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Tarjetas de resumen -->
+    <div class="col-md-3">
+        <div class="dashboard-card bg-primary text-white">
+            <div class="icon">
+                <i class="fas fa-user-graduate"></i>
+            </div>
+            <h3>{{ total_estudiantes }}</h3>
+            <p>Estudiantes</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="dashboard-card bg-success text-white">
+            <div class="icon">
+                <i class="fas fa-book"></i>
+            </div>
+            <h3>{{ total_cursos }}</h3>
+            <p>Cursos</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="dashboard-card bg-info text-white">
+            <div class="icon">
+                <i class="fas fa-clipboard-list"></i>
+            </div>
+            <h3>{{ total_matriculas }}</h3>
+            <p>Matrículas</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="dashboard-card bg-warning text-white">
+            <div class="icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <h3>{{ promedio_general }}</h3>
+            <p>Promedio General</p>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <!-- Gráfico de distribución de notas -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-bar"></i> Distribución de Notas
+                </h5>
+            </div>
+            <div class="card-body">
+                <canvas id="notasChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráfico de estudiantes por carrera -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-university"></i> Estudiantes por Carrera
+                </h5>
+            </div>
+            <div class="card-body">
+                <canvas id="carrerasChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <!-- Tabla de últimos registros -->
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-history"></i> Últimos Registros
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Estudiante</th>
+                                <th>Curso</th>
+                                <th>Nota</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for registro in ultimos_registros %}
+                            <tr>
+                                <td>{{ registro.fecha }}</td>
+                                <td>{{ registro.estudiante }}</td>
+                                <td>{{ registro.curso }}</td>
+                                <td>{{ registro.nota }}</td>
+                                <td>
+                                    <span class="badge {% if registro.estado == 'Aprobado' %}bg-success{% else %}bg-danger{% endif %}">
+                                        {{ registro.estado }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Datos para el gráfico de distribución de notas
+    const notasData = {
+        labels: ['0-5', '6-10', '11-15', '16-20'],
+        datasets: [{
+            label: 'Cantidad de Estudiantes',
+            data: [12, 19, 15, 8],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(75, 192, 192, 0.5)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)'
+            ],
+            borderWidth: 1
+        }]
+    };
+
+    // Datos para el gráfico de carreras
+    const carrerasData = {
+        labels: ['Ingeniería', 'Medicina', 'Derecho', 'Administración'],
+        datasets: [{
+            label: 'Estudiantes por Carrera',
+            data: [65, 45, 35, 55],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(75, 192, 192, 0.5)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)'
+            ],
+            borderWidth: 1
+        }]
+    };
+
+    // Inicializar gráficos
+    initChart('notasChart', 'bar', notasData, {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    });
+
+    initChart('carrerasChart', 'pie', carrerasData);
+});
+</script>
+{% endblock %} 

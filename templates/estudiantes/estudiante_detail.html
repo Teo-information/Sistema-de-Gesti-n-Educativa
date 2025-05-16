@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ estudiante.get_nombre_completo }} - Sistema de Gestión Educativa{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0">
+                        <i class="fas fa-user-graduate"></i> {{ estudiante.get_nombre_completo }}
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Información Personal</h5>
+                            <table class="table">
+                                <tr>
+                                    <th>DNI:</th>
+                                    <td>{{ estudiante.dni }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Fecha de Nacimiento:</th>
+                                    <td>{{ estudiante.fecha_nacimiento }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Edad:</th>
+                                    <td>{{ estudiante.get_edad }} años</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Información de Contacto</h5>
+                            <table class="table">
+                                <tr>
+                                    <th>Email:</th>
+                                    <td>{{ estudiante.email }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Teléfono:</th>
+                                    <td>{{ estudiante.telefono }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h5>Información Académica</h5>
+                            <table class="table">
+                                <tr>
+                                    <th>Carrera:</th>
+                                    <td>{{ estudiante.carrera }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Estado:</th>
+                                    <td>
+                                        <span class="badge {% if estudiante.activo %}bg-success{% else %}bg-danger{% endif %}">
+                                            {{ estudiante.activo|yesno:"Activo,Inactivo" }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Fecha de Registro:</th>
+                                    <td>{{ estudiante.fecha_registro }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'estudiantes:list' %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Volver
+                        </a>
+                        <div>
+                            <a href="{% url 'estudiantes:update' estudiante.pk %}" class="btn btn-warning">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+                            <a href="{% url 'estudiantes:delete' estudiante.pk %}" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-book"></i> Cursos Matriculados</h5>
+                </div>
+                <div class="card-body">
+                    {% for matricula in estudiante.matricula_set.all %}
+                    <div class="mb-3">
+                        <h6>{{ matricula.curso.nombre }}</h6>
+                        <p class="mb-1">Código: {{ matricula.curso.codigo }}</p>
+                        <p class="mb-1">Estado: 
+                            <span class="badge {% if matricula.estado == 'ACTIVA' %}bg-success{% elif matricula.estado == 'COMPLETADA' %}bg-info{% else %}bg-danger{% endif %}">
+                                {{ matricula.get_estado_display }}
+                            </span>
+                        </p>
+                    </div>
+                    {% empty %}
+                    <p class="text-muted">No hay cursos matriculados.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

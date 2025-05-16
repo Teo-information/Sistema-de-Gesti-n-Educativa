@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Sistema de Gestión Educativa{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">
+        <i class="fas fa-tachometer-alt"></i> Dashboard
+    </h1>
+    
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-user-graduate"></i> Estudiantes
+                    </h5>
+                    <h2 class="card-text">{{ total_estudiantes }}</h2>
+                    <a href="{% url 'estudiantes:list' %}" class="btn btn-light btn-sm">
+                        Ver detalles
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-book"></i> Cursos
+                    </h5>
+                    <h2 class="card-text">{{ total_cursos }}</h2>
+                    <a href="{% url 'cursos:list' %}" class="btn btn-light btn-sm">
+                        Ver detalles
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-clipboard-list"></i> Matrículas
+                    </h5>
+                    <h2 class="card-text">{{ total_matriculas }}</h2>
+                    <a href="{% url 'matriculas:list' %}" class="btn btn-light btn-sm">
+                        Ver detalles
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-star"></i> Notas
+                    </h5>
+                    <h2 class="card-text">{{ total_notas }}</h2>
+                    <a href="{% url 'notas:list' %}" class="btn btn-light btn-sm">
+                        Ver detalles
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-chart-line"></i> Acciones Rápidas
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        <a href="{% url 'estudiantes:create' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-user-plus"></i> Nuevo Estudiante
+                        </a>
+                        <a href="{% url 'cursos:create' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-plus-circle"></i> Nuevo Curso
+                        </a>
+                        <a href="{% url 'matriculas:create' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-clipboard-check"></i> Nueva Matrícula
+                        </a>
+                        <a href="{% url 'notas:create' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-star"></i> Nueva Nota
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle"></i> Información del Sistema
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p>Bienvenido al Sistema de Gestión Educativa. Aquí podrás:</p>
+                    <ul>
+                        <li>Gestionar estudiantes y sus datos personales</li>
+                        <li>Administrar cursos y sus detalles</li>
+                        <li>Registrar matrículas de estudiantes en cursos</li>
+                        <li>Gestionar las notas de los estudiantes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

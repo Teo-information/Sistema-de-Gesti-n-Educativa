@@ -1,0 +1,103 @@
+/* Estilos generales */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Estilos de la navbar */
+.navbar-brand i {
+    margin-right: 8px;
+}
+
+.nav-link i {
+    margin-right: 5px;
+}
+
+/* Estilos de las tarjetas */
+.card {
+    transition: transform 0.2s;
+    margin-bottom: 20px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Estilos de las tablas */
+.table-responsive {
+    margin-top: 20px;
+}
+
+.table th {
+    background-color: #f8f9fa;
+}
+
+/* Estilos del dashboard */
+.dashboard-card {
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.dashboard-card .icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+/* Estilos de los formularios */
+.form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Estilos de los botones */
+.btn {
+    margin-right: 5px;
+}
+
+.btn i {
+    margin-right: 5px;
+}
+
+/* Estilos de las alertas */
+.alert {
+    margin-top: 20px;
+}
+
+/* Estilos del footer */
+.footer {
+    margin-top: auto;
+    background-color: #f8f9fa;
+    padding: 20px 0;
+}
+
+/* Estilos para gráficos */
+.chart-container {
+    position: relative;
+    margin: auto;
+    height: 300px;
+    width: 100%;
+}
+
+/* Estilos para dispositivos móviles */
+@media (max-width: 768px) {
+    .dashboard-card {
+        margin-bottom: 15px;
+    }
+    
+    .form-container {
+        padding: 15px;
+    }
+} 

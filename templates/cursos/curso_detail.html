@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ curso.nombre }} - Sistema de Gestión Educativa{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0">
+                        <i class="fas fa-book"></i> {{ curso.nombre }}
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5>Información del Curso</h5>
+                            <p><strong>Código:</strong> {{ curso.codigo }}</p>
+                            <p><strong>Créditos:</strong> {{ curso.creditos }}</p>
+                            <p><strong>Profesor:</strong> 
+                                {% if curso.docente %}
+                                    {{ curso.docente }}
+                                {% else %}
+                                    <span class="text-muted">No asignado</span>
+                                {% endif %}
+                            </p>
+                            <p><strong>Estado:</strong> 
+                                {% if curso.activo %}
+                                    <span class="badge bg-success">Activo</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Inactivo</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Estadísticas</h5>
+                            <p><strong>Total Matriculados:</strong> {{ curso.matricula_set.count }}</p>
+                            <p><strong>Promedio de Notas:</strong> 
+                                {% with promedio=curso.nota_set.all|dictsort:"valor"|last %}
+                                    {% if promedio %}
+                                        {{ promedio.valor|floatformat:1 }}
+                                    {% else %}
+                                        No hay notas registradas
+                                    {% endif %}
+                                {% endwith %}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'cursos:list' %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Volver
+                        </a>
+                        <div>
+                            <a href="{% url 'cursos:update' curso.pk %}" class="btn btn-primary">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+                            <a href="{% url 'cursos:delete' curso.pk %}" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">
+                        <i class="fas fa-users"></i> Estudiantes Matriculados
+                    </h3>
+                </div>
+                <div class="card-body">
+                    {% if curso.matricula_set.all %}
+                        <div class="list-group">
+                            {% for matricula in curso.matricula_set.all %}
+                                <a href="{% url 'estudiantes:detail' matricula.estudiante.pk %}" class="list-group-item list-group-item-action">
+                                    {{ matricula.estudiante.nombre }} {{ matricula.estudiante.apellido }}
+                                    <small class="text-muted d-block">DNI: {{ matricula.estudiante.dni }}</small>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">No hay estudiantes matriculados en este curso.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

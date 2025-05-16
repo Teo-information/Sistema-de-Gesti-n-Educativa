@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalles de Nota - Sistema de Gestión Educativa{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0">
+                        <i class="fas fa-star"></i> Detalles de Nota
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5>Información del Estudiante</h5>
+                            <p><strong>Nombre:</strong> {{ nota.estudiante.nombre }} {{ nota.estudiante.apellido }}</p>
+                            <p><strong>DNI:</strong> {{ nota.estudiante.dni }}</p>
+                            <p><strong>Email:</strong> {{ nota.estudiante.email }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Información del Curso</h5>
+                            <p><strong>Curso:</strong> {{ nota.curso.nombre }}</p>
+                            <p><strong>Código:</strong> {{ nota.curso.codigo }}</p>
+                            <p><strong>Profesor:</strong> {{ nota.curso.docente }}</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5>Detalles de la Nota</h5>
+                            <p><strong>Nota:</strong> 
+                                <span class="badge {% if nota.valor >= 11 %}bg-success{% else %}bg-danger{% endif %}">
+                                    {{ nota.valor|floatformat:1 }}
+                                </span>
+                            </p>
+                            <p><strong>Fecha de Registro:</strong> {{ nota.fecha_registro|date:"d/m/Y H:i" }}</p>
+                            <p><strong>Estado:</strong> 
+                                <span class="badge {% if nota.valor >= 11 %}bg-success{% else %}bg-danger{% endif %}">
+                                    {{ nota.get_estado }}
+                                </span>
+                            </p>
+                            {% if nota.observaciones %}
+                            <p><strong>Observaciones:</strong> {{ nota.observaciones }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'notas:list' %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Volver
+                        </a>
+                        <div>
+                            <a href="{% url 'notas:update' nota.pk %}" class="btn btn-primary">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+                            <a href="{% url 'notas:delete' nota.pk %}" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
