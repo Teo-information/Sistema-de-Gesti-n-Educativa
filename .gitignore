@@ -1,0 +1,31 @@
+# Archivo .env
+.env
+.env.local
+.env.*.local
+
+# Archivos de Python
+*.pyc
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Entorno virtual
+venv/
+env/
+ENV/
+
+# Archivos de Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Archivos estáticos y media
+staticfiles/
+media/
+
+# Otros
+.DS_Store
+.idea/
+.vscode/
+*.swp
