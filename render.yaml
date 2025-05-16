@@ -2,8 +2,8 @@ services:
   - type: web
     name: sistema-educativo
     env: python
-    buildCommand: "./build.sh"
-    startCommand: "gunicorn sistema_educativo.wsgi:application"
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    startCommand: gunicorn sistema_educativo.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 60
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -11,5 +11,13 @@ services:
           property: connectionString
       - key: SECRET_KEY
         generateValue: true
+      - key: PYTHON_VERSION
+        value: 3.11.0
       - key: WEB_CONCURRENCY
-        value: 4
+        value: 2
+      - key: DJANGO_SETTINGS_MODULE
+        value: sistema_educativo.settings
+      - key: DEBUG
+        value: false
+    healthCheckPath: /
+    autoDeploy: true

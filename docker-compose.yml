@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=False
+      - SECRET_KEY=django-insecure-4$8vc6j$_x@0!k_u#s3z+x(4=e$th_6f3v^93q9u_6kk5zr1f$
+      - DATABASE_URL=mysql://root:bvcCrnxzRmkEqwvqGvsOQBPmlCzQkyoL@crossover.proxy.rlwy.net:25780/railway
+      - ALLOWED_HOSTS=.render.com,localhost,127.0.0.1,.onrender.com
+      - CSRF_TRUSTED_ORIGINS=https://*.render.com,https://*.onrender.com
+      - SECURE_SSL_REDIRECT=True
+      - SESSION_COOKIE_SECURE=True
+      - CSRF_COOKIE_SECURE=True
+    volumes:
+      - static_volume:/app/staticfiles
+    restart: always
+
+volumes:
+  static_volume:
